@@ -20,39 +20,39 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: |
-      #       ghcr.io/${{ github.repository }}:latest
-      #       ghcr.io/${{ github.repository }}:${{ github.sha }}
-      # - name: Update GitOps repository
-      #   shell: bash
-      #   env:
-      #     GIT_TOKEN: ${{ secrets.GITOPS_PAT }}
-      #   run: |
-      #     # Configure git credential store
-      #     git config --global credential.helper store
-      #     echo "https://${GIT_TOKEN}:x-oauth-basic@github.com" > ~/.git-credentials
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+      - name: Update GitOps repository
+        shell: bash
+        env:
+          GIT_TOKEN: ${{ secrets.GITOPS_PAT }}
+        run: |
+          # Configure git credential store
+          git config --global credential.helper store
+          echo "https://${GIT_TOKEN}:x-oauth-basic@github.com" > ~/.git-credentials
 
-      #     # Remove any existing gitops directory
-      #     rm -rf gitops
+          # Remove any existing gitops directory
+          rm -rf gitops
 
-      #     # Clone repository using HTTPS URL without token
-      #     git clone https://github.com/Shencko/grade-api-gitops.git gitops
-      #     cd gitops
+          # Clone repository using HTTPS URL without token
+          git clone https://github.com/Shencko/grade-api-gitops.git gitops
+          cd gitops
           
-      #     if [[ "$OSTYPE" == "darwin"* ]]; then
-      #       sed -i '' "s|image: ghcr.io/${{ github.repository }}:.*|image: ghcr.io/${{ github.repository }}:${{ github.sha }}|g" deployment.yaml
-      #     else
-      #       sed -i "s|image:ghcr.io/${{ github.repository }}:.*|image: ghcr.io/${{ github.repository }}:${{ github.sha }}|g" deployment.yaml
-      #     fi
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s|image: ghcr.io/${{ github.repository }}:.*|image: ghcr.io/${{ github.repository }}:${{ github.sha }}|g" deployment.yaml
+          else
+            sed -i "s|image:ghcr.io/${{ github.repository }}:.*|image: ghcr.io/${{ github.repository }}:${{ github.sha }}|g" deployment.yaml
+          fi
 
-      #     # commit changes
-      #     git config --global user.name "GitHub Actions"
-      #     git config --global user.email "actions@github.com"
-      #     git add deployment.yaml
-      #     git commit -m "Update image to ${GITHUB_SHA}"
+          # commit changes
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add deployment.yaml
+          git commit -m "Update image to ${GITHUB_SHA}"
          
-      #    # push changes #
-      #    git push -f https://${GIT_TOKEN}@github.com/Shencko/grade-api-gitops.git main
+         # push changes #
+         git push -f https://${GIT_TOKEN}@github.com/Shencko/grade-api-gitops.git main
