@@ -54,5 +54,5 @@ jobs:
           git add deployment.yaml
           git commit -m "Update image to ${GITHUB_SHA}"
          
-         # push changes
+         # push changes ###
          git push -f https://${GIT_TOKEN}@github.com/Shencko/grade-api-gitops.git main
